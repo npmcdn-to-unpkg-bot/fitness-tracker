@@ -1,0 +1,5 @@
+env/
+*.pyc
+*secrets*
+.DS_Store
+.idea/

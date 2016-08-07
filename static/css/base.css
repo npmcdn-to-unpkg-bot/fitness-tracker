@@ -1,0 +1,73 @@
+/*bright green 41CC21
+muted green 569947
+chartreuse E3FF10
+purple 8650FF
+blue 2821CC*/
+
+
+.navbar {
+    background: url(/static/images/limes.jpeg);
+}
+
+
+.hidden {
+    display: none;
+}
+
+/*button styling*/
+.btn-primary {
+    margin: 5px;
+    border-radius: 2px;
+    background-color: #2821CC;
+    border-color: #E3FF10;
+}
+
+.btn-primary:hover {
+    background-color: #E3FF10;
+    color: lightgray;
+    border-color: #8650FF;
+}
+
+.btn-secondary {
+    margin: 5px;
+    width: 100px;
+    border-radius: 2px;
+    background-color: whitesmoke;
+    border-color: lightgray;
+}
+
+/*link styling*/
+a {
+    color: lightseagreen;
+}
+
+/* unvisited link */
+a:link {
+    color: #41CC21;
+}
+
+/* visited link */
+a:visited {
+    color: #E3FF10;
+}
+
+/* mouse over link */
+a:hover {
+    color: #569947;
+}
+
+/* selected link */
+a:active {
+    color: #E3FF10;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
