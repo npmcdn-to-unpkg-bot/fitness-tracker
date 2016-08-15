@@ -10,13 +10,6 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
 
-@app.route('/')
-def index():
-    """Homepage."""
-
-    return render_template("homepage.html")
-
-
 if __name__ == "__main__":
 
     connect_to_db(app)

@@ -4,6 +4,9 @@ chartreuse E3FF10
 purple 8650FF
 blue 2821CC*/
 
+body {
+    padding: 20px;
+}
 
 .navbar {
     background: url(/static/images/limes.jpeg);
