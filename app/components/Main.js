@@ -22,12 +22,14 @@ var ReactDOM = require('react-dom');
 //https://facebook.github.io/react/docs/thinking-in-react.html
 
 var ProductCategoryRow = React.createClass({
+
     render: function() {
         return (<tr><th colSpan="2">{this.props.category}</th></tr>);
     }
 });
 
 var ProductRow = React.createClass({
+
     render: function() {
         var name = this.props.product.stocked ?
             this.props.product.name :
@@ -44,6 +46,7 @@ var ProductRow = React.createClass({
 });
 
 var ProductTable = React.createClass({
+
     render: function() {
         var rows = [];
         var lastCategory = null;
@@ -72,12 +75,31 @@ var ProductTable = React.createClass({
 });
 
 var SearchBar = React.createClass({
+
+    handleChange: function() {
+        this.props.onUserInput(
+            this.refs.filterTextInput.value,
+            this.refs.inStockOnlyInput.checked
+        );
+    },
+
     render: function() {
         return (
             <form>
-                <input type="text" placeholder="Search..." value={this.props.filterText} />
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    value={this.props.filterText}
+                    ref="filterTextInput"
+                    onChange={this.handleChange}
+                />
                 <p>
-                    <input type="checkbox" checked={this.props.inStockOnly} />
+                    <input
+                        type="checkbox"
+                        checked={this.props.inStockOnly}
+                        ref="inStockOnlyInput"
+                        onChange={this.handleChange}
+                    />
                     {' '}
                     Only show products in stock
                 </p>
@@ -87,11 +109,19 @@ var SearchBar = React.createClass({
 });
 
 var FilterableProductTable = React.createClass({
+
     getInitialState: function() {
         return {
             filterText: '',
             inStockOnly: false
         };
+    },
+
+    handleUserInput: function(filterText, inStockOnly) {
+        this.setState({
+            filterText: filterText,
+            inStockOnly: inStockOnly
+        });
     },
 
     render: function() {
@@ -100,6 +130,7 @@ var FilterableProductTable = React.createClass({
                 <SearchBar
                     filterText={this.state.filterText}
                     inStockOnly={this.state.inStockOnly}
+                    onUserInput={this.handleUserInput}
                 />
                 <ProductTable
                     products={this.props.products}
@@ -125,3 +156,9 @@ ReactDOM.render(
     <FilterableProductTable products={PRODUCTS} />,
     document.getElementById('container')
 );
+
+// how do i pass data through json api with react and server (vs. defining within)
+// diff between state and props, when to change, what to change
+// is prop render, get initial state, handle User Input, handle change
+// meaning of this, and when to bind this
+// organization of components, in this folder, separate file, nested

@@ -72,6 +72,7 @@
 	var ProductCategoryRow = React.createClass({
 	    displayName: 'ProductCategoryRow',
 
+
 	    render: function render() {
 	        return React.createElement(
 	            'tr',
@@ -87,6 +88,7 @@
 
 	var ProductRow = React.createClass({
 	    displayName: 'ProductRow',
+
 
 	    render: function render() {
 	        var name = this.props.product.stocked ? this.props.product.name : React.createElement(
@@ -113,6 +115,7 @@
 
 	var ProductTable = React.createClass({
 	    displayName: 'ProductTable',
+
 
 	    render: function render() {
 	        var rows = [];
@@ -160,15 +163,31 @@
 	var SearchBar = React.createClass({
 	    displayName: 'SearchBar',
 
+
+	    handleChange: function handleChange() {
+	        this.props.onUserInput(this.refs.filterTextInput.value, this.refs.inStockOnlyInput.checked);
+	    },
+
 	    render: function render() {
 	        return React.createElement(
 	            'form',
 	            null,
-	            React.createElement('input', { type: 'text', placeholder: 'Search...', value: this.props.filterText }),
+	            React.createElement('input', {
+	                type: 'text',
+	                placeholder: 'Search...',
+	                value: this.props.filterText,
+	                ref: 'filterTextInput',
+	                onChange: this.handleChange
+	            }),
 	            React.createElement(
 	                'p',
 	                null,
-	                React.createElement('input', { type: 'checkbox', checked: this.props.inStockOnly }),
+	                React.createElement('input', {
+	                    type: 'checkbox',
+	                    checked: this.props.inStockOnly,
+	                    ref: 'inStockOnlyInput',
+	                    onChange: this.handleChange
+	                }),
 	                ' ',
 	                'Only show products in stock'
 	            )
@@ -179,11 +198,19 @@
 	var FilterableProductTable = React.createClass({
 	    displayName: 'FilterableProductTable',
 
+
 	    getInitialState: function getInitialState() {
 	        return {
 	            filterText: '',
 	            inStockOnly: false
 	        };
+	    },
+
+	    handleUserInput: function handleUserInput(filterText, inStockOnly) {
+	        this.setState({
+	            filterText: filterText,
+	            inStockOnly: inStockOnly
+	        });
 	    },
 
 	    render: function render() {
@@ -192,7 +219,8 @@
 	            null,
 	            React.createElement(SearchBar, {
 	                filterText: this.state.filterText,
-	                inStockOnly: this.state.inStockOnly
+	                inStockOnly: this.state.inStockOnly,
+	                onUserInput: this.handleUserInput
 	            }),
 	            React.createElement(ProductTable, {
 	                products: this.props.products,
@@ -206,6 +234,12 @@
 	var PRODUCTS = [{ category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' }, { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' }, { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' }, { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' }, { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' }, { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }];
 
 	ReactDOM.render(React.createElement(FilterableProductTable, { products: PRODUCTS }), document.getElementById('container'));
+
+	// how do i pass data through json api with react and server (vs. defining within)
+	// diff between state and props, when to change, what to change
+	// is prop render, get initial state, handle User Input, handle change
+	// meaning of this, and when to bind this
+	// organization of components, in this folder, separate file, nested
 
 /***/ },
 /* 1 */
