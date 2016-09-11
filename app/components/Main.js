@@ -21,6 +21,43 @@ var ReactDOM = require('react-dom');
 
 //https://facebook.github.io/react/docs/thinking-in-react.html
 
+var WorkoutViewer = React.createClass({
+
+    getInitialState: function() {
+        return {
+            workouts: []
+        }
+    },
+
+    componentDidMount: function() {
+        $.ajax({
+            url: '/workouts',
+            method: get,
+            success: function(response) {
+                this.setState({
+                    workouts: response.workouts
+                })
+            }.bind(this)
+        })
+    },
+
+    render: function(){
+        var workouts = this.state.workouts.map(function(workout) {
+            return <li>{workout}</li>
+        });
+
+        return <div className="workouts">
+            <ul>
+                {workouts}
+            </ul>
+        </div>;
+    },
+});
+
+
+
+
+
 var ProductCategoryRow = React.createClass({
 
     render: function() {
@@ -159,6 +196,81 @@ ReactDOM.render(
 
 // how do i pass data through json api with react and server (vs. defining within)
 // diff between state and props, when to change, what to change
-// is prop render, get initial state, handle User Input, handle change
-// meaning of this, and when to bind this
-// organization of components, in this folder, separate file, nested
+// is prop render, get initial state, handle User Input, handle change - methods
+// meaning of this, and when to bind this - ask this later
+// organization of components, in this folder, separate file, nested - make components separate files, childs to be separate files
+// call render on parent
+
+// tutorial1.js
+var CommentBox = React.createClass({
+    render: function() {
+        return (
+            <div className="commentBox">
+                <h1>Comments</h1>
+                <CommentList data={this.props.data} />
+                <CommentForm />
+            </div>
+        );
+    }
+});
+
+var CommentList = React.createClass({
+    render: function() {
+        var commentNodes = this.props.data.map(function(comment) {
+            return (
+                <Comment author={comment.author} key={comment.id}>
+                    {comment.text}
+                </Comment>
+            );
+        });
+        return (
+            <div className="commentList">
+                {commentNodes}
+            </div>
+        );
+    }
+});
+
+var CommentForm = React.createClass({
+    render: function() {
+        return (
+            <div className="commentForm">
+                Hello, world! I am a CommentForm.
+            </div>
+        );
+    }
+});
+
+var Comment = React.createClass({
+    rawMarkup: function() {
+        var md = new Remarkable();
+        var rawMarkup = md.render(this.props.children.toString());
+        return { __html: rawMarkup };
+    },
+
+    render: function() {
+        return (
+            <div className="comment">
+                <h2 className="commentAuthor">
+                    {this.props.author}
+                </h2>
+                <span dangerouslySetInnerHTML={this.rawMarkup()} />
+            </div>
+        );
+    }
+});
+
+var data = [
+    {id: 1, author: "Pete Hunt", text: "This is one comment"},
+    {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+];
+
+ReactDOM.render(
+    <CommentBox data={data} />,
+    document.getElementById('content')
+);
+
+ReactDOM.render(
+    WorkoutViewer,
+    document.getElementById('workout-list')
+);

@@ -4,4 +4,4 @@ env/
 .DS_Store
 .idea/
 node_modules
-bundle
+public/bundle.js
